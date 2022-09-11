@@ -60,7 +60,7 @@ def banned(user):
 
 
 # Refuse user's command because they are on banlist
-def eat_shit(update, context):
+def deny(update, context):
         user = update.message.from_user.username
         if user not in banlist:
             banlist.append(update.message.from_user.username)
@@ -82,7 +82,7 @@ def ban(update, context):
         else:
             reply(update, context, f"Error: {update.message.text.split()[1]} is already on banlist!")
     else:
-        eat_shit(update, context)
+        deny(update, context)
 
 # Removes user specified in message from banlist. If requester is not admin, adds requester to banlist.
 def unban(update, context):
@@ -94,7 +94,7 @@ def unban(update, context):
         else:
             reply(update, context, f'Error: {update.message.text.split()[1]} is not currently banned!')
     else:
-        eat_shit(update, context)
+        deny(update, context)
 
 def op(update, context):
     if verified(update.message.from_user.username) and not banned(update.message.from_user.username):
@@ -105,7 +105,7 @@ def op(update, context):
         else:
             reply(update, context, f'Error: {update.message.text.split()[1]} is already an admin!')
     else:
-        eat_shit(update, context)
+        deny(update, context)
 
 def deop(update,context):
     if verified(update.message.from_user.username) and not banned(update.message.from_user.username):
@@ -116,7 +116,7 @@ def deop(update,context):
         else:
             reply(update, context, f'Error: {update.message.text.split()[1]} is not an admin!')
     else:
-        eat_shit(update, context)
+        deny(update, context)
 
 
 # ----- Fun things -----
@@ -127,7 +127,7 @@ def hello(update, context):
 
 def inspire(update, context):
     if banned(update.message.from_user.username):
-        eat_shit(update, context)
+        deny(update, context)
     else:
         r = requests.get('https://inspirobot.me/api?generate=true')
         reply(update, context, r.text)
@@ -135,7 +135,7 @@ def inspire(update, context):
 
 def insult(update, context):
     if banned(update.message.from_user.username):
-        eat_shit(update, context)
+        deny(update, context)
     else:
         r = requests.get('https://generatorfun.com/code/model/generatorcontent.php?recordtable=generator&recordkey=3&gen=Y&itemnumber=1&randomoption=undefined&genimage=No&nsfw=No&keyword=undefined&tone=Normal')
         soup = BeautifulSoup(r.content, 'html.parser')
